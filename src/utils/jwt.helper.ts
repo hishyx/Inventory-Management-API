@@ -7,7 +7,7 @@ export const generateAccessToken = (payload: jwtPayloadDTO): string => {
 
   if (!JWT_SECRET) throw new httpError("No jwt secret key found", 500);
 
-  const token = jwt.sign(payload, JWT_SECRET);
+  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
 
   return token;
 };
@@ -17,9 +17,10 @@ export const verifyToken = (token: string) => {
 
   if (!JWT_SECRET) throw new httpError("No jwt secret key found", 500);
 
-  const payload = jwt.verify(token, JWT_SECRET);
-
-  console.log("payload is ", payload);
-
-  return payload as jwtPayloadDTO;
+  try {
+    const payload = jwt.verify(token, JWT_SECRET);
+    return payload as jwtPayloadDTO;
+  } catch (err) {
+    throw new httpError("Unauthorized", 401);
+  }
 };

@@ -94,7 +94,7 @@ export const editUser = async (id: string, updatedUserData: newUserDTO) => {
 
   const existingUser = await userRepository.getUser(updatedUserData.email);
 
-  if (existingUser)
+  if (existingUser && existingUser._id.toString() !== id)
     throw new httpError(
       "User with same email already exists please try another email ",
       409,
