@@ -1,8 +1,7 @@
 import express from "express";
-import inventoryRoutes from "./routes/inventory.routes.js";
-import authRoutes from "./routes/auth.routes.js";
-import { errorHandlingMiddleware } from "./middlewares/errorHandling.js";
-
+import inventoryRoutes from "./modules/presentation/routes/inventory.routes.js";
+import authRoutes from "./modules/presentation/routes/auth.routes.js";
+import { errorHandlingMiddleware } from "./modules/presentation/middlewares/errorHandling.js";
 const app = express();
 
 app.use(express.json());
