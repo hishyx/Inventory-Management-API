@@ -16,6 +16,8 @@ export class PostgresSyncRepository implements IInventorySyncRepository {
       updated_at = EXCLUDED.updated_at
       `;
 
+      console.log(JSON.stringify(item.images))
+
     const values = [
       item._id.toString(),
       item.name,

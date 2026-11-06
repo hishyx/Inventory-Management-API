@@ -3,7 +3,7 @@ import mongoose, { Schema } from "mongoose";
 
 loadEnv();
 
-const mongoUrl = process.env.MONGO_URL;
+const mongoUrl = "mongodb://127.0.0.1:27017/inventory-management-api"
 if (!mongoUrl) {
   throw new Error("MONGO_URL is required to seed the database.");
 }
@@ -69,35 +69,49 @@ const inventoryItems = [
     stock: 42,
     category: "Electronics",
     description: "Compact wireless keyboard with a rechargeable battery.",
-    images: [],
+    images: [
+      "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800",
+      "https://images.unsplash.com/photo-1595225476474-87563907a212?w=800",
+    ],
   },
   {
     name: "USB-C Hub",
     stock: 28,
     category: "Electronics",
     description: "Seven-port USB-C hub for laptops and tablets.",
-    images: [],
+    images: [
+      "https://images.unsplash.com/photo-1625842268584-8f3296236761?w=800",
+      "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=800",
+    ],
   },
   {
     name: "Desk Lamp",
     stock: 16,
     category: "Office",
     description: "Adjustable LED desk lamp with three brightness settings.",
-    images: [],
+    images: [
+      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800",
+    ],
   },
   {
     name: "Notebook Set",
     stock: 75,
     category: "Stationery",
     description: "Set of three ruled notebooks with recycled paper.",
-    images: [],
+    images: [
+      "https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=800",
+      "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800",
+    ],
   },
   {
     name: "Ergonomic Mouse",
     stock: 33,
     category: "Electronics",
     description: "Wireless ergonomic mouse with adjustable DPI.",
-    images: [],
+    images: [
+      "https://images.unsplash.com/photo-1527814050087-3793815479db?w=800",
+      "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=800",
+    ],
   },
 ];
 
