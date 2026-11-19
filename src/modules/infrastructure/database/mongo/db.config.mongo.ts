@@ -8,7 +8,7 @@ const connectDB = async (startApp: () => void | Promise<void>) => {
 
     await startApp();
   } catch (err) {
-    console.error("Startup failed:", err);
+    console.error("Application startup failed");
     throw err;
   }
 };

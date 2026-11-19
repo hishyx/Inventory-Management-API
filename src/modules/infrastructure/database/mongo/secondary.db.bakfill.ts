@@ -1,4 +1,4 @@
-import type { IInventorySyncRepository } from "../../../application/interfaces/repositories/inventory.sync.interface.js";
+import type IInventorySyncRepository from "../../../application/interfaces/repositories/inventory.sync.interface.js";
 import Inventory from "./models/inventory.model.js";
 
 export const createInventoryBackfiller = (repo: IInventorySyncRepository) => {
@@ -6,6 +6,8 @@ export const createInventoryBackfiller = (repo: IInventorySyncRepository) => {
     console.log("Starting inventory backfill...");
 
     const cursor = Inventory.find().lean().cursor();
+
+    await repo.cleanUp();
 
     for await (const item of cursor) {
       await repo.upsert(item);

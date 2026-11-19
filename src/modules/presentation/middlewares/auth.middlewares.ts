@@ -27,8 +27,6 @@ export class AuthMiddleware {
 
     req.user = user;
 
-    console.log(req.user);
-
     next();
   };
 

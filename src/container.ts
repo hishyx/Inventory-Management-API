@@ -12,6 +12,9 @@ import { PostgresSyncRepository } from "./modules/infrastructure/repositories/in
 import { createInventorySyncWorker } from "./modules/infrastructure/workers/inventory.sync.worker.js";
 import { createInventoryBackfiller } from "./modules/infrastructure/database/mongo/secondary.db.bakfill.js";
 
+import createJobProvider from "./modules/infrastructure/queues/inventory-sync.producer.js";
+import InventorySyncJobsRepository from "./modules/infrastructure/repositories/syncJobs.repository.js";
+
 //Inventory setup
 
 const inventoryRepo = new MongoInventoryRepository();
@@ -27,7 +30,15 @@ const authServ = new AuthServices(userRepo, passwordHasher, tokenService);
 export const authControll = new AuthControllers(authServ);
 export const authMiddleware = new AuthMiddleware(tokenService);
 
+//Job Saving
+
+const syncJobsRepo = new InventorySyncJobsRepository();
+export const addJob = createJobProvider(syncJobsRepo);
+
 const inventorySyncRepo = new PostgresSyncRepository();
-export const inventorySyncWorker = createInventorySyncWorker(inventorySyncRepo);
+export const inventorySyncWorker = createInventorySyncWorker(
+  inventorySyncRepo,
+  syncJobsRepo,
+);
 
 export const inventoryBackfiller = createInventoryBackfiller(inventorySyncRepo);

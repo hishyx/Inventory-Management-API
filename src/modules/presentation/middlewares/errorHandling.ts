@@ -7,7 +7,7 @@ export const errorHandlingMiddleware = (
   res: Response,
   next: NextFunction,
 ) => {
-  console.error("Error detected:", err);
+  console.error("Request failed");
 
   if (err instanceof httpError) {
     return res.status(err.statusCode).json({ message: err.message });

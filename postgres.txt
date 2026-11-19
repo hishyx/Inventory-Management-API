@@ -1,0 +1,10 @@
+CREATE TABLE items (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    stock INTEGER NOT NULL CHECK (stock >= 0),
+    images JSONB NOT NULL CHECK (jsonb_typeof(images) = 'array'),
+    category TEXT NOT NULL,
+    created_at TIMESTAMPTZ,
+    updated_at TIMESTAMPTZ
+);

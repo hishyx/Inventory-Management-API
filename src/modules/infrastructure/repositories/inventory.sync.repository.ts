@@ -1,4 +1,4 @@
-import type { IInventorySyncRepository } from "../../application/interfaces/repositories/inventory.sync.interface.js";
+import type IInventorySyncRepository from "../../application/interfaces/repositories/inventory.sync.interface.js";
 import { postgresPool } from "../database/postgres/db.config.postgres.js";
 
 export class PostgresSyncRepository implements IInventorySyncRepository {
@@ -15,8 +15,6 @@ export class PostgresSyncRepository implements IInventorySyncRepository {
       created_at = EXCLUDED.created_at,
       updated_at = EXCLUDED.updated_at
       `;
-
-      console.log(JSON.stringify(item.images))
 
     const values = [
       item._id.toString(),
@@ -35,8 +33,12 @@ export class PostgresSyncRepository implements IInventorySyncRepository {
   async deleteById(id: string): Promise<void> {
     const query = "DELETE FROM items WHERE id = $1";
 
-    await postgresPool.query(query, [id]);
+    console.log(id);
 
-    console.log("synchronisation completed");
+    const result = await postgresPool.query(query, [id]);
+  }
+
+  async cleanUp() {
+    await postgresPool.query("TRUNCATE TABLE items");
   }
 }

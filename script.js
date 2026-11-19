@@ -118,7 +118,7 @@ const inventoryItems = [
 try {
   await mongoose.connect(mongoUrl);
 
-  const userResult = await User.bulkWrite(
+  await User.bulkWrite(
     users.map((user) => ({
       updateOne: {
         filter: { email: user.email },
@@ -130,7 +130,7 @@ try {
     })),
   );
 
-  const inventoryResult = await Inventory.bulkWrite(
+  await Inventory.bulkWrite(
     inventoryItems.map((item) => ({
       updateOne: {
         filter: { name: item.name },
@@ -140,17 +140,9 @@ try {
     })),
   );
 
-  console.log(
-    `Seed complete: ${users.length} users and ${inventoryItems.length} inventory items processed.`,
-  );
-  console.log(
-    `Inserted or updated users: ${userResult.upsertedCount} inserted, ${userResult.modifiedCount} updated.`,
-  );
-  console.log(
-    `Inserted or updated inventory: ${inventoryResult.upsertedCount} inserted, ${inventoryResult.modifiedCount} updated.`,
-  );
-} catch (error) {
-  console.error("Database seeding failed:", error);
+  console.log("Database seeding completed");
+} catch {
+  console.error("Database seeding failed");
   process.exitCode = 1;
 } finally {
   await mongoose.disconnect();

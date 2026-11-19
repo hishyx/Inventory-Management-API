@@ -4,15 +4,13 @@ import env from "../../../../config/zod.env.js";
 const connectionString = env.POSTGRES_URL;
 
 if (!connectionString) {
-  console.log("No PostgreSQL connection URL found", 500);
+  console.error("PostgreSQL connection URL is missing");
 }
 
 export const postgresPool = new Pool({
   connectionString,
 });
 
-postgresPool.on("error", (error) => {
-  console.error("Unexpected PostgreSQL pool error:", error);
+postgresPool.on("error", () => {
+  console.error("PostgreSQL pool error");
 });
-
-console.log("connectionString is", connectionString);

@@ -1,5 +1,5 @@
-import { inventoryBackfiller } from "../../../../container.js";
-import { addJob } from "../../queues/inventory-sync.producer.js";
+import { string } from "zod";
+import { addJob, inventoryBackfiller } from "../../../../container.js";
 import Inventory from "./models/inventory.model.js";
 
 export const startInventoryChangeStream = async () => {
@@ -13,24 +13,24 @@ export const startInventoryChangeStream = async () => {
     try {
       const operation = change.operationType;
 
-      let data;
+      let payload: any;
 
-      if (operation === "delete") data = change.documentKey._id;
-      else data = change.fullDocument;
+      if (operation === "delete") payload = change.documentKey._id;
+      else payload = change.fullDocument;
 
       await addJob({
         operation,
-        data,
+        payload,
       });
-
-      console.log("synchronisation completed");
     } catch (err) {
-      console.error("Sycnronisation failed", err);
+      console.error("Inventory synchronization failed");
+
+      console.log(err);
     }
   });
 
-  changeStream.on("error", (error) => {
-    console.log(`MongoDB Change Stream error`, error);
+  changeStream.on("error", () => {
+    console.error("MongoDB change stream failed");
   });
 
   await inventoryBackfiller();

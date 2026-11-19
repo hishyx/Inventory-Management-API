@@ -6,8 +6,6 @@ export class AuthControllers {
   constructor(private services: IAuthService) {}
 
   login = async (req: Request, res: Response): Promise<void> => {
-    console.log("logged from ", this.services);
-
     const response = await this.services.login(req.body);
 
     res.json(response);
